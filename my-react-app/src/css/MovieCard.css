@@ -193,4 +193,63 @@
     height: 32px;
     font-size: 1.2rem;
   }
+
+  /* ...existing code... */
+
+/* Адаптив для карточки фильма */
+@media (max-width: 600px) {
+  .movie-card {
+    border-radius: 6px;
+    font-size: 0.95rem;
+    min-width: 180px;
+    max-width: 95vw;
+    margin: 0 auto 1rem auto;
+  }
+
+  .movie-poster img {
+    width: 100%;
+    height: auto;
+    min-height: 220px;
+    object-fit: cover;
+  }
+
+  .movie-info {
+    padding: 0.6rem 0.4rem;
+    text-align: center;
+  }
+
+  .favorite-btn {
+    font-size: 1.5rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .movie-overlay {
+    padding: 0.5rem;
+  }
+
+  .show-message,
+  .remove-message {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.7rem;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 320px;
+    text-align: center;
+    word-break: break-word;
+  }
+
+  @media (max-width: 600px) {
+  .movies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+}
+}
+
+/* ...existing code... */
+
+  
 }
