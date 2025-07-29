@@ -1,82 +1,86 @@
 import MovieCard from "../components/MovieCard";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css";
 
 function Home() {
-  //we gonna define state that gonna store what user keep in input
+  // Состояния для поиска, фильмов, ошибок и загрузки
   const [searchQuery, setSearchQuery] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState([]); // Массив фильмов
+  const [error, setError] = useState(null); // Ошибки
+  const [loading, setLoading] = useState(true); // Статус загрузки
 
-
-   useEffect(() => {
+  // Загрузка популярных фильмов сразу при монтировании компонента
+  useEffect(() => {
     const loadPopularMovies = async () => {
+      setLoading(true); // Включаем индикатор загрузки
       try {
-        const popularMovies = await getPopularMovies()
-        setMovies(popularMovies)
+        const popularMovies = await getPopularMovies(); // Загрузка популярных фильмов
+        setMovies(popularMovies); // Устанавливаем популярные фильмы в состояние
       } catch (err) {
-        console.log(err);
-        setError("Failed to load movies...")
+        console.error(err);
+        setError("Failed to load movies..."); // Сообщение об ошибке
+      } finally {
+        setLoading(false); // Завершаем загрузку
       }
-        finally {
-          setLoading(false);
-        }
-      }
+    };
 
-      loadPopularMovies();
-      },
-    
-    [])
+    loadPopularMovies(); // Вызов функции при монтировании компонента
+  }, []); // Пустой массив зависимостей - эффект вызывается только при первом рендере компонента
 
+  // Обработчик поиска
   const handleSearch = async (e) => {
-    e.preventDefault()
-    if(!searchQuery.trim()) return 
-    if(loading) return
+    e.preventDefault(); // Предотвращаем стандартное поведение формы
+    if (!searchQuery.trim()) return; // Если строка поиска пуста, ничего не делаем
+    if (loading) return; // Если загрузка, не разрешаем поиск
 
-    setLoading(true);
+    setLoading(true); // Включаем загрузку
+    setMovies([]); // Очищаем текущий список фильмов (при новом поиске)
+
     try {
-      const searchResults = await searchMovies(searchQuery);
-      setMovies(searchResults)
-      setError(null)
-
+      const searchResults = await searchMovies(searchQuery); // Поиск по фильму
+      setMovies(searchResults); // Сохраняем результаты поиска в состояние
+      setError(null); // Сбрасываем ошибку, если поиск успешен
     } catch (err) {
-      console.log(err)
-      setError("Failed to search movies")
-
+      console.error(err);
+      setError("Failed to search movies"); // Сообщение об ошибке поиска
     } finally {
-      setLoading(false);
+      setLoading(false); // Завершаем загрузку
     }
-    
-  }
+  };
 
-    return (
-    <div className = "home">
-      <form onSubmit = {handleSearch} className = "search-form">
-      <input
-      type = "text"
-      placeholder = "Search for movies..."
-      className = "search-input" 
-      value = {searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-      />
-
-      <button type = "submit" className="search-button">Search</button>
+  return (
+    <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search for movies..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit" className="search-button">Search</button>
       </form>
 
-      {error && <div className= "error-message">{error}</div>}
-        {loading ? (
-          <div className = "loading">Loading...</div>
-        ) : (
-          <div className = "movies-grid">
-            {movies.map((movie) => (
-              <MovieCard movie = {movie} key = {movie.id} />
-           ))}
-           </div>
-    )}
+      {error && <div className="error-message">{error}</div>} {/* Сообщение об ошибке */}
+
+      {loading ? (
+        <div className="loading">Loading...</div>  // Индикатор загрузки
+      ) : (
+        <div className="movies-grid">
+          {movies.length > 0 ? (
+            // Если фильмы загружены, отображаем их
+            movies.map((movie) => (
+              <MovieCard movie={movie} key={movie.id} />
+            ))
+          ) : (
+            <div className="no-movies">No movies found</div> // Сообщение, если фильмы не найдены
+          )}
+        </div>
+      )}
+      
     </div>
-    );
-  }
+  );
+}
 
 export default Home;

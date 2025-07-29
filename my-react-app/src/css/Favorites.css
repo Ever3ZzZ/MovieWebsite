@@ -50,3 +50,40 @@
   animation: fadeIn 0.3s ease-out forwards;
 }
 
+/* ...existing code... */
+
+/* Адаптив для Favorites */
+.favorites {
+  padding: 2rem 1rem;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .movies-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+  }
+  .favorites {
+    padding: 1rem 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .movies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  .favorites h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+/* ...existing code... */
+

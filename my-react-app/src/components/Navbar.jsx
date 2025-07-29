@@ -7,7 +7,7 @@ function Navbar() {
             <Link to = "/">💻 Dream Movies</Link>
         </div>
         <div className = "navbar-links">
-            <Link to = "/" className = "nav-link">🏠Home</Link>
+            <Link to = "/" className = "nav-link">🏠Movies</Link>
             <Link to = "/favorites" className = "nav-link">⭐Favorites</Link>
         </div>
 
