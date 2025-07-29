@@ -1,6 +1,7 @@
 {
   "name": "my-react-app",
-  "homepage": "https://Ever3ZzZ.github.io/<MovieWebsite>/",
+  "homepage": "https://Ever3ZzZ.github.io/MovieWebsite/",
+
   "private": true,
   "version": "0.0.0",
   "type": "module",
